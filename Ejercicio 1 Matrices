@@ -1,0 +1,77 @@
+// El tiempo de ejecucion en este programa en una matriz de 30*30 por lo regular sale 0.00 pero al aumentar el tamaño de la matriz da un resultado mas notorio
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define TAM 300
+
+
+void fma(int matrix[TAM][TAM]) {
+    for (int i = 0; i < TAM; ++i) {
+        for (int j = 0; j < TAM; ++j) {
+            matrix[i][j] = rand() % 10;
+        }
+    }
+}
+
+
+void multiplyMatrices(int mat1[TAM][TAM], int mat2[TAM][TAM], int result[TAM][TAM]) {
+    for (int i = 0; i < TAM; ++i) {
+        for (int j = 0; j < TAM; ++j) {
+            result[i][j] = 0;
+            for (int k = 0; k < TAM; ++k) {
+                result[i][j] += mat1[i][k] * mat2[k][j];
+            }
+        }
+    }
+}
+
+int main() {
+    srand(time(NULL)); 
+
+    int matrix1[TAM][TAM];
+    int matrix2[TAM][TAM];
+    int result[TAM][TAM];
+
+    
+    fma(matrix1);
+    fma(matrix2);
+
+   
+    printf("Matriz 1:\n");
+    for (int i = 0; i < TAM; ++i) {
+        for (int j = 0; j < TAM; ++j) {
+            printf("%d ", matrix1[i][j]);
+        }
+        printf("\n");
+    }
+
+ 
+    printf("\nMatriz 2:\n");
+    for (int i = 0; i < TAM; ++i) {
+        for (int j = 0; j < TAM; ++j) {
+            printf("%d ", matrix2[i][j]);
+        }
+        printf("\n");
+    }
+
+ 
+    clock_t start_time = clock();
+    multiplyMatrices(matrix1, matrix2, result);
+    clock_t end_time = clock();
+
+  
+    printf("\nResultado de la multiplicacion:\n");
+    for (int i = 0; i < TAM; ++i) {
+        for (int j = 0; j < TAM; ++j) {
+            printf("%d ", result[i][j]);
+        }
+        printf("\n");
+    }
+
+
+    double execution_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC * 1000.0;
+    printf("\nTiempo de ejecucion: %.2f milisegundos\n", execution_time);
+
+    return 0;
+}
